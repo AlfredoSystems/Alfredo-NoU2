@@ -17,10 +17,10 @@ void setup() {
 
 void loop() {
     for (float i = -1023; i < 1023; i += 1) {
-        frontLeftMotor.set(i);
-        frontRightMotor.set(i);
-        rearLeftMotor.set(i);
-        rearRightMotor.set(i);
+        frontLeftMotor.set(i / 1023.0);
+        frontRightMotor.set(i / 1023.0);
+        rearLeftMotor.set(i / 1023.0);
+        rearRightMotor.set(i / 1023.0);
         servo1.write(map(i, -1023, 1023, 0, 180));
         servo2.write(map(i, -1023, 1023, 0, 180));
         servo3.write(map(i, -1023, 1023, 0, 180));
