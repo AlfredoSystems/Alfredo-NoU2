@@ -1,5 +1,3 @@
-// Alfredo_NoU.cpp (v0.21)
-
 #include "esp32-hal-ledc.h"
 #include "Arduino.h"
 #include "Alfredo_NoU.h"
@@ -72,7 +70,7 @@ void NoU_Motor::setState(uint8_t state) {
 }
 
 void NoU_Motor::set(float power) {
-    power = max(-1.0f, min(1.0f, power)); // clamp power from -1..1
+    power = constrain(power, -1, 1);
     setState(power > 0 ? FORWARD : BACKWARD);
     setPower(fabs(power) * (1 << MOTOR_PWM_RES));
 }

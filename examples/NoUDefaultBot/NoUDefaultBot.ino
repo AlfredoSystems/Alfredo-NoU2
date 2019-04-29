@@ -1,5 +1,3 @@
-// NoUDefaultBot.ino (v0.21)
-
 #include <BluetoothSerial.h>
 #include <Alfredo_NoU.h>
 
