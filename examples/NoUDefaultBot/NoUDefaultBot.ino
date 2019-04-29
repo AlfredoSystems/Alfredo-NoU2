@@ -1,4 +1,4 @@
-// NoUDefaultBot.ino (v0.2)
+// NoUDefaultBot.ino (v0.21)
 
 #include <BluetoothSerial.h>
 #include <Alfredo_NoU.h>
@@ -59,10 +59,10 @@ void drive(float throttle, float rotation) {
             rightPower = maxInput;
         }
     } else {
-        if (zRotation > 0) [
+        if (rotation > 0) {
             leftPower = throttle + rotation;
             rightPower = maxInput;
-        ]
+        }
         else {
             leftPower = maxInput;
             rightPower = throttle - rotation;
