@@ -1,4 +1,4 @@
-// NoUMotorParty.ino (v0.1)
+// NoUMotorParty.ino (v0.2)
 
 #include <Alfredo_NoU.h>
 
@@ -18,7 +18,7 @@ void setup() {
 }
 
 void loop() {
-    for (int i = -1023; i < 1023; i++) {
+    for (float i = -1; i < 1; i += 0.001) {
         frontLeftMotor.set(i);
         frontRightMotor.set(i);
         rearLeftMotor.set(i);
@@ -30,7 +30,7 @@ void loop() {
         RSL::update();
         delay(1);
     }
-    for (int i = 1023; i > -1023; i--) {
+    for (float i = -1; i < 1; i -= 0.001) {
         frontLeftMotor.set(i);
         frontRightMotor.set(i);
         rearLeftMotor.set(i);
