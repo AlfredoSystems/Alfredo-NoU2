@@ -41,10 +41,12 @@ NoU_Motor::NoU_Motor(uint8_t motorPort)
     pinMode(aPin, OUTPUT);
     pinMode(bPin, OUTPUT);
     pinMode(enablePin, OUTPUT);
+    setState(RELEASE);
+    setPower(0);
 }
 
-void NoU_Motor::setPower(int16_t power) {
-    // TODO: clamp power
+void NoU_Motor::setPower(uint16_t power) {
+    power = constrain(power, 0, (1 << MOTOR_PWM_RES) - 1);
     ledcWrite(channel, power);
 }
 
@@ -72,7 +74,7 @@ void NoU_Motor::setState(uint8_t state) {
 void NoU_Motor::set(float power) {
     power = constrain(power, -1, 1);
     setState(power > 0 ? FORWARD : BACKWARD);
-    setPower(fabs(power) * (1 << MOTOR_PWM_RES));
+    setPower(fabs(power) * ((1 << MOTOR_PWM_RES) - 1));
 }
 
 NoU_Servo::NoU_Servo(uint8_t pin) {

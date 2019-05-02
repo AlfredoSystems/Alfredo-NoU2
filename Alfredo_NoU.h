@@ -20,15 +20,15 @@
 #define RSL_PIN 2 // Same as built-in LED
 
 // PWM Channels
-#define RSL_CHANNEL 7
-#define MOTOR1_CHANNEL 8
-#define MOTOR2_CHANNEL 9
-#define MOTOR3_CHANNEL 10
-#define MOTOR4_CHANNEL 11
-#define SERVO1_CHANNEL 12
-#define SERVO2_CHANNEL 13
-#define SERVO3_CHANNEL 14
-#define SERVO4_CHANNEL 15
+#define MOTOR1_CHANNEL 0
+#define MOTOR2_CHANNEL 1
+#define MOTOR3_CHANNEL 2
+#define MOTOR4_CHANNEL 3
+#define SERVO1_CHANNEL 4
+#define SERVO2_CHANNEL 5
+#define SERVO3_CHANNEL 6
+#define SERVO4_CHANNEL 7
+#define RSL_CHANNEL 8
 
 // PWM Configuration
 #define MOTOR_PWM_RES 10 // bits
@@ -53,7 +53,7 @@ class NoU_Motor {
         NoU_Motor(uint8_t motorPort);
         void set(float velocity);
         void setState(uint8_t state);
-        void setPower(int16_t power);
+        void setPower(uint16_t power);
         void setInverted(boolean isInverted);
     private:
         uint8_t enablePin;

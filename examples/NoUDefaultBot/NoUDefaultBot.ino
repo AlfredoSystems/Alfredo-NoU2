@@ -27,8 +27,8 @@ void loop() {
             servoAxis = ESP_BT.parseFloat();
         }
     }
-    drive(yAxis, xAxis);
     servo.write((servoAxis + 1) * 90);
+    drive(yAxis, xAxis);
 
     // RSL logic
     if (millis() - lastTimePacketReceived > 1000) {
@@ -44,9 +44,9 @@ void loop() {
 void drive(float throttle, float rotation) {
     throttle = constrain(throttle, -1, 1);
     rotation = constrain(rotation, -1, 1);
-    float leftPower;
-    float rightPower;
-    float maxInput = (throttle > 0 ? 1 : -1) * max(abs(throttle), abs(rotation));
+    float leftPower = 0;
+    float rightPower = 0;
+    float maxInput = (throttle > 0 ? 1 : -1) * max(fabs(throttle), fabs(rotation));
     if (throttle > 0) {
         if (rotation > 0) {
             leftPower = maxInput;
@@ -58,12 +58,12 @@ void drive(float throttle, float rotation) {
         }
     } else {
         if (rotation > 0) {
-            leftPower = throttle + rotation;
-            rightPower = maxInput;
+            leftPower = maxInput;
+            rightPower = throttle + rotation;
         }
         else {
-            leftPower = maxInput;
-            rightPower = throttle - rotation;
+            leftPower = throttle - rotation;
+            rightPower = maxInput;
         }
     }
     frontLeftMotor.set(constrain(leftPower, -1, 1));
