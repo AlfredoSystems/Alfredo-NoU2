@@ -1,0 +1,43 @@
+#######################################
+# Syntax Coloring Map - Alfredo_NoU
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+NoU_Motor KEYWORD1
+NoU_Servo KEYWORD1
+NoU_Drivetrain KEYWORD1
+RSL KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+set KEYWORD2
+setState KEYWORD2
+setPower KEYWORD2
+setInverted KEYWORD2
+isInverted KEYWORD2
+
+write KEYWORD2
+
+tankDrive KEYWORD2
+arcadeDrive KEYWORD2
+curvatureDrive KEYWORD2
+holonomicDrive KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+
+FORWARD LITERAL1
+BACKWARD LITERAL1
+BRAKE LITERAL1
+RELEASE LITERAL1
+
+RSL_OFF LITERAL1
+RSL_ON LITERAL1
+RSL_DISABLED LITERAL1
+RSL_ENABLED LITERAL1

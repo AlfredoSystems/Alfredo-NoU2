@@ -48,6 +48,10 @@
 #define RSL_DISABLED 2
 #define RSL_ENABLED 3
 
+// Drivetrain configurations
+#define TWO_MOTORS 0
+#define FOUR_MOTORS 1
+
 class NoU_Motor {
     public:
         NoU_Motor(uint8_t motorPort);
@@ -55,11 +59,13 @@ class NoU_Motor {
         void setState(uint8_t state);
         void setPower(uint16_t power);
         void setInverted(boolean isInverted);
+        boolean isInverted();
     private:
         uint8_t enablePin;
         uint8_t aPin;
         uint8_t bPin;
         uint8_t channel;
+        boolean inverted;
 };
 
 class NoU_Servo {
@@ -69,6 +75,26 @@ class NoU_Servo {
     private:
         uint8_t pin;
         uint8_t channel;
+};
+
+class NoU_Drivetrain {
+    public:
+        NoU_Drivetrain(NoU_Motor* leftMotor, NoU_Motor* rightMotor);
+        NoU_Drivetrain(NoU_Motor* frontLeftMotor, NoU_Motor* frontRightMotor,
+                        NoU_Motor* rearLeftMotor, NoU_Motor* rearRightMotor);
+        void tankDrive(float leftPower, float rightPower);
+        void arcadeDrive(float throttle, float rotation, boolean invertedReverse = false);
+        void curvatureDrive(float throttle, float rotation, boolean isQuickTurn, boolean invertedReverse);
+        void holonomicDrive(float xVelocity, float yVelocity, float rotation);
+    private:
+        uint8_t drivetrainType;
+        NoU_Motor *frontLeftMotor;
+        NoU_Motor *frontRightMotor;
+        NoU_Motor *rearLeftMotor;
+        NoU_Motor *rearRightMotor;
+        float quickStopThreshold = 0.2;
+        float quickStopAlpha = 0.1;
+        float quickStopAccumulator;
 };
 
 class RSL {

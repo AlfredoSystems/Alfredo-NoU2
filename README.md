@@ -1,3 +1,3 @@
 # Alfredo-NoU
-Current library version: v0.24.
-Library for the Alfredo NoU v1.7. Supports motors and servos. IN DEVELOPMENT, EXPECT TO RETURN FOR UPDATES.
+Current library version: v1.0.
+Library for the Alfredo NoU v1.7. Supports motors and servos, and has helper methods for different drivetrain types.
