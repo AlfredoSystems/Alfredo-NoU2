@@ -97,7 +97,7 @@ NoU_Servo::NoU_Servo(uint8_t pin) {
 }
 
 void NoU_Servo::write(float degrees) {
-    ledcWrite(channel, fmap(degrees, 0, 180, 24, 120));
+    ledcWrite(channel, fmap(degrees, 0, 180, 103, 204));
 }
 
 NoU_Drivetrain::NoU_Drivetrain(NoU_Motor* leftMotor, NoU_Motor* rightMotor)
