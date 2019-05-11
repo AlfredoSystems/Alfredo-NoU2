@@ -215,10 +215,10 @@ void NoU_Drivetrain::holonomicDrive(float xVelocity, float yVelocity, float rota
     xVelocity = constrain(xVelocity, -1, 1);
     yVelocity = constrain(yVelocity, -1, 1);
     rotation = constrain(rotation, -1, 1);
-    float frontLeftPower = -xVelocity - yVelocity + rotation;
-    float frontRightPower = xVelocity - yVelocity - rotation;
-    float rearLeftPower = xVelocity - yVelocity + rotation;
-    float rearRightPower = -xVelocity - yVelocity - rotation;
+    float frontLeftPower = xVelocity + yVelocity + rotation;
+    float frontRightPower = -xVelocity + yVelocity - rotation;
+    float rearLeftPower = -xVelocity + yVelocity + rotation;
+    float rearRightPower = xVelocity + yVelocity - rotation;
     float maxMagnitude = max(fabs(frontLeftPower), max(fabs(frontRightPower), max(fabs(rearLeftPower), fabs(rearRightPower))));
     if (maxMagnitude > 1) {
         frontLeftPower /= maxMagnitude;
