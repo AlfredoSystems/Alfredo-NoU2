@@ -87,11 +87,11 @@ class NoU_Drivetrain {
         void curvatureDrive(float throttle, float rotation, boolean isQuickTurn, boolean invertedReverse = false);
         void holonomicDrive(float xVelocity, float yVelocity, float rotation);
     private:
-        uint8_t drivetrainType;
         NoU_Motor *frontLeftMotor;
         NoU_Motor *frontRightMotor;
         NoU_Motor *rearLeftMotor;
         NoU_Motor *rearRightMotor;
+        uint8_t drivetrainType;
         float quickStopThreshold = 0.2;
         float quickStopAlpha = 0.1;
         float quickStopAccumulator;
