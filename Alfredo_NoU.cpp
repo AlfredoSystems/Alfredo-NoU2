@@ -215,10 +215,17 @@ void NoU_Drivetrain::holonomicDrive(float xVelocity, float yVelocity, float rota
     xVelocity = constrain(xVelocity, -1, 1);
     yVelocity = constrain(yVelocity, -1, 1);
     rotation = constrain(rotation, -1, 1);
-    float frontLeftPower = (-0.7071 * xVelocity) + (-0.7071 * yVelocity) + rotation;
-    float frontRightPower = (-0.7071 * xVelocity) + (0.7071 * yVelocity) + rotation;
-    float rearLeftPower = (0.7071 * xVelocity) + (-0.7071 * yVelocity) + rotation;
-    float rearRightPower = (0.7071 * xVelocity) + (0.7071 * yVelocity) + rotation;
+    float frontLeftPower = -xVelocity - yVelocity + rotation;
+    float frontRightPower = -xVelocity + yVelocity - rotation;
+    float rearLeftPower = -xVelocity + yVelocity + rotation;
+    float rearRightPower = -xVelocity - yVelocity - rotation;
+    float maxMagnitude = max(fabs(frontLeftPower), max(fabs(frontRightPower), max(fabs(rearLeftPOwer), fabs(rearRightPower))));
+    if (maxMagnitude > 1) {
+        frontLeftPower /= maxMagnitude;
+        frontRightPower /= maxMagnitude;
+        rearLeftPower /= maxMagnitude;
+        rearRightPower /= maxMagnitude;
+    }
     frontLeftMotor->set(constrain((frontLeftMotor->isInverted() ? -1 : 1) * frontLeftPower, -1, 1));
     frontRightMotor->set(constrain((frontRightMotor->isInverted() ? -1 : 1) * frontRightPower, -1, 1));
     rearLeftMotor->set(constrain((rearLeftMotor->isInverted() ? -1 : 1) * rearLeftPower, -1, 1));
