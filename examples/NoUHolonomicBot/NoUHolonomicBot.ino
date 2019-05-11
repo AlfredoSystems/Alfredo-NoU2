@@ -4,8 +4,8 @@
 BluetoothSerial ESP_BT;
 
 NoU_Motor frontLeftMotor(1);
-NoU_Motor frontRightMotor(3);
-NoU_Motor rearLeftMotor(2);
+NoU_Motor frontRightMotor(2);
+NoU_Motor rearLeftMotor(3);
 NoU_Motor rearRightMotor(4);
 NoU_Servo servo(16);
 
