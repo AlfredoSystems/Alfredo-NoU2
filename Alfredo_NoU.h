@@ -84,7 +84,7 @@ class NoU_Drivetrain {
                         NoU_Motor* rearLeftMotor, NoU_Motor* rearRightMotor);
         void tankDrive(float leftPower, float rightPower);
         void arcadeDrive(float throttle, float rotation, boolean invertedReverse = false);
-        void curvatureDrive(float throttle, float rotation, boolean isQuickTurn, boolean invertedReverse);
+        void curvatureDrive(float throttle, float rotation, boolean isQuickTurn, boolean invertedReverse = false);
         void holonomicDrive(float xVelocity, float yVelocity, float rotation);
     private:
         uint8_t drivetrainType;
