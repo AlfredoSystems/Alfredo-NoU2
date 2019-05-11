@@ -47,7 +47,7 @@ NoU_Motor::NoU_Motor(uint8_t motorPort)
 }
 
 void NoU_Motor::setPower(uint16_t power) {
-    power = min(power, (1 << MOTOR_PWM_RES) - 1);
+    power = min(power, (uint16_t)((1 << MOTOR_PWM_RES) - 1));
     ledcWrite(channel, power);
 }
 
