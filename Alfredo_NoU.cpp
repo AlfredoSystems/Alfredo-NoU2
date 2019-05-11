@@ -1,7 +1,6 @@
 #include "esp32-hal-ledc.h"
 #include "Arduino.h"
 #include "Alfredo_NoU.h"
-#include "assert.h"
 
 uint8_t RSL::state = RSL_OFF;
 
@@ -97,7 +96,7 @@ NoU_Servo::NoU_Servo(uint8_t pin) {
 }
 
 void NoU_Servo::write(float degrees) {
-    ledcWrite(channel, fmap(degrees, 0, 180, 103, 204));
+    ledcWrite(channel, fmap(degrees, 0, 180, 46, 108)); // 5% to 10% duty cycle
 }
 
 NoU_Drivetrain::NoU_Drivetrain(NoU_Motor* leftMotor, NoU_Motor* rightMotor)
