@@ -33,8 +33,10 @@
 // PWM Configuration
 #define MOTOR_PWM_RES 10 // bits
 #define MOTOR_PWM_FREQ 39000 // Based on AF Motor Shield, uses 39kHz for DC Motors
-#define SERVO_PWM_RES 10 // bits
+#define SERVO_PWM_RES 16 // bits
 #define SERVO_PWM_FREQ 50 // Hz
+#define RSL_PWM_RES 10 // bits
+#define RSL_PWM_FREQ 1000 // Hz
 
 // Motor states
 #define FORWARD 1
@@ -70,11 +72,19 @@ class NoU_Motor {
 
 class NoU_Servo {
     public:
-        NoU_Servo(uint8_t pin);
+        NoU_Servo(uint8_t pin, uint16_t minPulse = 540, uint16_t maxPulse = 2400);
         void write(float degrees);
+        void writeMicroseconds(uint16_t pulseLength);
+        void setMinimumPulse(uint16_t minPulse);
+        void setMaximumPulse(uint16_t maxPulse);
+        uint16_t getMicroseconds();
+        float getDegrees();
     private:
         uint8_t pin;
         uint8_t channel;
+        uint16_t minPulse;
+        uint16_t maxPulse;
+        uint16_t pulse;
 };
 
 class NoU_Drivetrain {

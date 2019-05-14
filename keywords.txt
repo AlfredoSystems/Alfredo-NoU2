@@ -22,6 +22,11 @@ setInverted KEYWORD2
 isInverted KEYWORD2
 
 write KEYWORD2
+writeMicroseconds KEYWORD2
+setMinimumPulse KEYWORD2
+setMaximumPulse KEYWORD2
+getPulse KEYWORD2
+getDegrees KEYWORD2
 
 tankDrive KEYWORD2
 arcadeDrive KEYWORD2

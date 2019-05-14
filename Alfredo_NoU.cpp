@@ -85,8 +85,10 @@ boolean NoU_Motor::isInverted() {
     return inverted;
 }
 
-NoU_Servo::NoU_Servo(uint8_t pin) {
+NoU_Servo::NoU_Servo(uint8_t pin, uint16_t minPulse, uint16_t maxPulse) {
     this->pin = pin;
+    this->minPulse = minPulse;
+    this->maxPulse = maxPulse;
     if (pin == 16) channel = SERVO1_CHANNEL;
     else if (pin == 17) channel = SERVO2_CHANNEL;
     else if (pin == 18) channel = SERVO3_CHANNEL;
@@ -96,7 +98,28 @@ NoU_Servo::NoU_Servo(uint8_t pin) {
 }
 
 void NoU_Servo::write(float degrees) {
-    ledcWrite(channel, fmap(degrees, 0, 180, 46, 108)); // 5% to 10% duty cycle
+    writeMicroseconds(fmap(degrees, 0, 180, minPulse, maxPulse));
+}
+
+void NoU_Servo::writeMicroseconds(uint16_t pulseLength) {
+    this->pulse = pulseLength;
+    ledcWrite(channel, fmap(pulseLength, 0, 20000, 0, (1 << SERVO_PWM_RES) - 1));
+}
+
+void NoU_Servo::setMinimumPulse(uint16_t minPulse) {
+    this->minPulse = minPulse;
+}
+
+void NoU_Servo::setMaximumPulse(uint16_t maxPulse) {
+    this->maxPulse = maxPulse;
+}
+
+uint16_t NoU_Servo::getMicroseconds() {
+    return pulse;
+}
+
+float NoU_Servo::getDegrees() {
+    return fmap(pulse, minPulse, maxPulse, 0, 180);
 }
 
 NoU_Drivetrain::NoU_Drivetrain(NoU_Motor* leftMotor, NoU_Motor* rightMotor)
@@ -232,7 +255,7 @@ void NoU_Drivetrain::holonomicDrive(float xVelocity, float yVelocity, float rota
 }
 
 void RSL::initialize() {
-    ledcSetup(RSL_CHANNEL, 1000, 10);
+    ledcSetup(RSL_CHANNEL, RSL_PWM_FREQ, RSL_PWM_RES);
     ledcAttachPin(RSL_PIN, RSL_CHANNEL);
 }
 
@@ -246,13 +269,13 @@ void RSL::update() {
             ledcWrite(RSL_CHANNEL, 1);
             break;
         case RSL_ON:
-            ledcWrite(RSL_CHANNEL, 1023);
+            ledcWrite(RSL_CHANNEL, (1 << RSL_PWM_RES) - 1);
             break;
         case RSL_ENABLED:
             ledcWrite(RSL_CHANNEL, millis() % 1000 < 500 ? (millis() % 500) * 2 : (500 - (millis() % 500)) * 2);
             break;
         case RSL_DISABLED:
-            ledcWrite(RSL_CHANNEL, 1023);
+            ledcWrite(RSL_CHANNEL, (1 << RSL_PWM_RES) - 1);
             break;
     }
 }
