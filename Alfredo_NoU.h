@@ -72,7 +72,7 @@ class NoU_Motor {
 
 class NoU_Servo {
     public:
-        NoU_Servo(uint8_t pin, uint16_t minPulse = 540, uint16_t maxPulse = 2400);
+        NoU_Servo(uint8_t pin, uint16_t minPulse = 540, uint16_t maxPulse = 2300);
         void write(float degrees);
         void writeMicroseconds(uint16_t pulseLength);
         void setMinimumPulse(uint16_t minPulse);
