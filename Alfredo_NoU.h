@@ -57,17 +57,29 @@
 class NoU_Motor {
     public:
         NoU_Motor(uint8_t motorPort);
-        void set(float velocity);
+        void set(float output);
         void setState(uint8_t state);
         void setPower(uint16_t power);
         void setInverted(boolean isInverted);
         boolean isInverted();
+        void setMinimumOutput(float minimumOutput);
+        void setMaximumOutput(float maximumOutput);
+        void setExponent(float exponent);
+        void setDeadband(float deadband);
+        float getOutput();
     private:
+        float applyCurve(float output);
         uint8_t enablePin;
         uint8_t aPin;
         uint8_t bPin;
         uint8_t channel;
         boolean inverted;
+        float output;
+        uint8_t state;
+        float minimumOutput = 0;
+        float maximumOutput = 1;
+        float exponent = 1;
+        float deadband = 0;
 };
 
 class NoU_Servo {
@@ -96,7 +108,14 @@ class NoU_Drivetrain {
         void arcadeDrive(float throttle, float rotation, boolean invertedReverse = false);
         void curvatureDrive(float throttle, float rotation, boolean isQuickTurn, boolean invertedReverse = false);
         void holonomicDrive(float xVelocity, float yVelocity, float rotation);
+        void setMinimumOutput(float minimumOutput);
+        void setMaximumOutput(float maximumOutput);
+        void setInputExponent(float inputExponent);
+        void setInputDeadband(float inputDeadband);
     private:
+        void setMotors(float frontLeftPower, float frontRightPower, float rearLeftPower, float rearRightPower);
+        float applyInputCurve(float input);
+        float applyOutputCurve(float output);
         NoU_Motor *frontLeftMotor;
         NoU_Motor *frontRightMotor;
         NoU_Motor *rearLeftMotor;
@@ -105,6 +124,10 @@ class NoU_Drivetrain {
         float quickStopThreshold = 0.2;
         float quickStopAlpha = 0.1;
         float quickStopAccumulator;
+        float minimumOutput = 0;
+        float maximumOutput = 1;
+        float inputExponent = 1;
+        float inputDeadband = 0;
 };
 
 class RSL {

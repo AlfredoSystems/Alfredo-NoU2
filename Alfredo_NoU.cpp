@@ -48,6 +48,7 @@ NoU_Motor::NoU_Motor(uint8_t motorPort)
 void NoU_Motor::setPower(uint16_t power) {
     power = min(power, (uint16_t)((1 << MOTOR_PWM_RES) - 1));
     ledcWrite(channel, power);
+    this->output = (state == BACKWARD ? -1 : 1) * ((float)power / ((1 << MOTOR_PWM_RES) - 1));
 }
 
 void NoU_Motor::setState(uint8_t state) {
@@ -69,12 +70,40 @@ void NoU_Motor::setState(uint8_t state) {
             digitalWrite(bPin, LOW);
             break;
     }
+    this->state = state;
 }
 
-void NoU_Motor::set(float power) {
-    power = constrain(power, -1, 1);
-    setState(power > 0 ? FORWARD : BACKWARD);
-    setPower(fabs(power) * ((1 << MOTOR_PWM_RES) - 1));
+void NoU_Motor::set(float output) {
+    output = applyCurve(output);
+    setState(output > 0 ? FORWARD : BACKWARD);
+    setPower(fabs(output) * ((1 << MOTOR_PWM_RES) - 1));
+}
+
+float NoU_Motor::applyCurve(float input) {
+    return fmap((fabs(input) < deadband ? 0 : 1) // apply deadband
+                * pow(max(fmap(constrain(fabs(input), -1, 1), deadband, 1, 0, 1), 0.0f), exponent), // account for deadband, apply exponent
+                0, 1, minimumOutput, maximumOutput) // apply minimum and maximum output limits
+            * (input == 0 ? 0 : input > 0 ? 1 : -1); // apply original sign
+}
+
+void NoU_Motor::setMinimumOutput(float minimumOutput) {
+    minimumOutput = constrain(minimumOutput, 0, maximumOutput);
+    this->minimumOutput = minimumOutput;
+}
+
+void NoU_Motor::setMaximumOutput(float maximumOutput) {
+    maximumOutput = constrain(maximumOutput, minimumOutput, 1);
+    this->maximumOutput = maximumOutput;
+}
+
+void NoU_Motor::setDeadband(float deadband) {
+    deadband = constrain(deadband, 0, 1);
+    this->deadband = deadband;
+}
+
+void NoU_Motor::setExponent(float exponent) {
+    exponent = max(0.0f, exponent);
+    this->exponent = exponent;
 }
 
 void NoU_Motor::setInverted(boolean inverted) {
@@ -83,6 +112,10 @@ void NoU_Motor::setInverted(boolean inverted) {
 
 boolean NoU_Motor::isInverted() {
     return inverted;
+}
+
+float NoU_Motor::getOutput() {
+    return output;
 }
 
 NoU_Servo::NoU_Servo(uint8_t pin, uint16_t minPulse, uint16_t maxPulse) {
@@ -133,20 +166,32 @@ NoU_Drivetrain::NoU_Drivetrain(NoU_Motor* frontLeftMotor, NoU_Motor* frontRightM
         rearLeftMotor(rearLeftMotor), rearRightMotor(rearRightMotor), drivetrainType(FOUR_MOTORS)
 { }
 
-void NoU_Drivetrain::tankDrive(float leftPower, float rightPower) {
+float NoU_Drivetrain::applyInputCurve(float input) {
+    return (fabs(input) < inputDeadband ? 0 : 1) // apply deadband
+            * pow(max(fmap(constrain(fabs(input), -1, 1), inputDeadband, 1, 0, 1), 0.0f), inputExponent) // account for deadband, apply exponent
+            * (input > 0 ? 1 : -1); // apply original sign
+}
+
+void NoU_Drivetrain::setMotors(float frontLeftPower, float frontRightPower, float rearLeftPower, float rearRightPower) {
     switch (drivetrainType) {
         case FOUR_MOTORS:
-            rearLeftMotor->set(constrain((rearLeftMotor->isInverted() ? -1 : 1) * leftPower, -1, 1));
-            rearRightMotor->set(constrain((rearRightMotor->isInverted() ? -1 : 1) * rightPower, -1, 1));
+            rearLeftMotor->set((rearLeftMotor->isInverted() ? -1 : 1) * rearLeftPower);
+            rearRightMotor->set((rearRightMotor->isInverted() ? -1 : 1) * rearRightPower);
         case TWO_MOTORS:
-            frontLeftMotor->set(constrain((frontLeftMotor->isInverted() ? -1 : 1) * leftPower, -1, 1));
-            frontRightMotor->set(constrain((frontRightMotor->isInverted() ? -1 : 1) * rightPower, -1, 1));
+            frontLeftMotor->set((frontLeftMotor->isInverted() ? -1 : 1) * frontLeftPower);
+            frontRightMotor->set((frontRightMotor->isInverted() ? -1 : 1) * frontRightPower);
     }
 }
 
+void NoU_Drivetrain::tankDrive(float leftPower, float rightPower) {
+    leftPower = applyInputCurve(leftPower);
+    rightPower = applyInputCurve(rightPower);
+    setMotors(leftPower, rightPower, leftPower, rightPower);
+}
+
 void NoU_Drivetrain::arcadeDrive(float throttle, float rotation, boolean invertedReverse) {
-    throttle = constrain(throttle, -1, 1);
-    rotation = constrain(rotation, -1, 1);
+    throttle = applyInputCurve(throttle);
+    rotation = applyInputCurve(rotation);
     float leftPower = 0;
     float rightPower = 0;
     float maxInput = (throttle > 0 ? 1 : -1) * max(fabs(throttle), fabs(rotation));
@@ -169,12 +214,12 @@ void NoU_Drivetrain::arcadeDrive(float throttle, float rotation, boolean inverte
             rightPower = invertedReverse ? maxInput : throttle - rotation;
         }
     }
-    tankDrive(leftPower, rightPower);
+    setMotors(leftPower, rightPower, leftPower, rightPower);
 }
 
 void NoU_Drivetrain::curvatureDrive(float throttle, float rotation, boolean isQuickTurn, boolean invertedReverse) {
-    throttle = constrain(throttle, -1, 1);
-    rotation = constrain(rotation, -1, 1);
+    throttle = applyInputCurve(throttle);
+    rotation = applyInputCurve(rotation);
     float angularPower;
     boolean overPower;
     if (isQuickTurn) {
@@ -229,14 +274,14 @@ void NoU_Drivetrain::curvatureDrive(float throttle, float rotation, boolean isQu
         leftPower /= maxMagnitude;
         rightPower /= maxMagnitude;
     }
-    tankDrive(leftPower, rightPower);
+    setMotors(leftPower, rightPower, leftPower, rightPower);
 }
 
 void NoU_Drivetrain::holonomicDrive(float xVelocity, float yVelocity, float rotation) {
     if (drivetrainType == TWO_MOTORS) return;
-    xVelocity = constrain(xVelocity, -1, 1);
-    yVelocity = constrain(yVelocity, -1, 1);
-    rotation = constrain(rotation, -1, 1);
+    xVelocity = applyInputCurve(xVelocity);
+    yVelocity = applyInputCurve(yVelocity);
+    rotation = applyInputCurve(rotation);
     float frontLeftPower = xVelocity + yVelocity + rotation;
     float frontRightPower = -xVelocity + yVelocity - rotation;
     float rearLeftPower = -xVelocity + yVelocity + rotation;
@@ -248,10 +293,39 @@ void NoU_Drivetrain::holonomicDrive(float xVelocity, float yVelocity, float rota
         rearLeftPower /= maxMagnitude;
         rearRightPower /= maxMagnitude;
     }
-    frontLeftMotor->set(constrain((frontLeftMotor->isInverted() ? -1 : 1) * frontLeftPower, -1, 1));
-    frontRightMotor->set(constrain((frontRightMotor->isInverted() ? -1 : 1) * frontRightPower, -1, 1));
-    rearLeftMotor->set(constrain((rearLeftMotor->isInverted() ? -1 : 1) * rearLeftPower, -1, 1));
-    rearRightMotor->set(constrain((rearRightMotor->isInverted() ? -1 : 1) * rearRightPower, -1, 1));
+    setMotors(frontLeftPower, frontRightPower, rearLeftPower, rearRightPower);
+}
+
+void NoU_Drivetrain::setMinimumOutput(float minimumOutput) {
+    switch (drivetrainType) {
+        case FOUR_MOTORS:
+            rearLeftMotor->setMinimumOutput(minimumOutput);
+            rearRightMotor->setMinimumOutput(minimumOutput);
+        case TWO_MOTORS:
+            frontLeftMotor->setMinimumOutput(minimumOutput);
+            frontRightMotor->setMinimumOutput(minimumOutput);
+    }
+}
+
+void NoU_Drivetrain::setMaximumOutput(float maximumOutput) {
+    switch (drivetrainType) {
+        case FOUR_MOTORS:
+            rearLeftMotor->setMaximumOutput(maximumOutput);
+            rearRightMotor->setMaximumOutput(maximumOutput);
+        case TWO_MOTORS:
+            frontLeftMotor->setMaximumOutput(maximumOutput);
+            frontRightMotor->setMaximumOutput(maximumOutput);
+    }
+}
+
+void NoU_Drivetrain::setInputExponent(float inputExponent) {
+    inputExponent = max(0.0f, inputExponent);
+    this->inputExponent = inputExponent;
+}
+
+void NoU_Drivetrain::setInputDeadband(float inputDeadband) {
+    inputDeadband = constrain(inputDeadband, 0, 1);
+    this->inputDeadband = inputDeadband;
 }
 
 void RSL::initialize() {
