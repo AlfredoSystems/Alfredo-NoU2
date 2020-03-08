@@ -4,18 +4,23 @@
 #include <inttypes.h>
 
 // Pins
-#define MOTOR1_EN 14
-#define MOTOR1_A 12
-#define MOTOR1_B 13
-#define MOTOR2_EN 15
+#define MOTOR1_A 13
+#define MOTOR1_B 12
 #define MOTOR2_A 27
-#define MOTOR2_B 4
-#define MOTOR3_EN 32
-#define MOTOR3_A 33
-#define MOTOR3_B 25
-#define MOTOR4_EN 26
-#define MOTOR4_A 23
-#define MOTOR4_B 5
+#define MOTOR2_B 33
+#define MOTOR3_A 32
+#define MOTOR3_B 18
+#define MOTOR4_A 19
+#define MOTOR4_B 23
+#define MOTOR5_A 15
+#define MOTOR5_B 14
+#define MOTOR6_A 22
+#define MOTOR6_B 21
+
+#define SERVO1_PIN 16
+#define SERVO2_PIN 17
+#define SERVO3_PIN 25
+#define SERVO4_PIN 26
 
 #define RSL_PIN 2 // Same as built-in LED
 
@@ -24,11 +29,13 @@
 #define MOTOR2_CHANNEL 1
 #define MOTOR3_CHANNEL 2
 #define MOTOR4_CHANNEL 3
-#define SERVO1_CHANNEL 4
-#define SERVO2_CHANNEL 5
-#define SERVO3_CHANNEL 6
-#define SERVO4_CHANNEL 7
-#define RSL_CHANNEL 8
+#define MOTOR5_CHANNEL 4
+#define MOTOR6_CHANNEL 5
+#define SERVO1_CHANNEL 6
+#define SERVO2_CHANNEL 7
+#define SERVO3_CHANNEL 8
+#define SERVO4_CHANNEL 9
+#define RSL_CHANNEL 10
 
 // PWM Configuration
 #define MOTOR_PWM_RES 10 // bits
@@ -69,7 +76,6 @@ class NoU_Motor {
         float getOutput();
     private:
         float applyCurve(float output);
-        uint8_t enablePin;
         uint8_t aPin;
         uint8_t bPin;
         uint8_t channel;
@@ -84,7 +90,7 @@ class NoU_Motor {
 
 class NoU_Servo {
     public:
-        NoU_Servo(uint8_t pin, uint16_t minPulse = 540, uint16_t maxPulse = 2300);
+        NoU_Servo(uint8_t servoPort, uint16_t minPulse = 540, uint16_t maxPulse = 2300);
         void write(float degrees);
         void writeMicroseconds(uint16_t pulseLength);
         void setMinimumPulse(uint16_t minPulse);
