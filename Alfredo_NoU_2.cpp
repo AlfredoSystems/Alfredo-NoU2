@@ -58,16 +58,16 @@ void NoU_Motor::setPower(uint16_t power) {
 void NoU_Motor::setState(uint8_t state) {
     switch (state) {
         case FORWARD:	
-            ledcAttachPin(channel, aPin);
+            ledcAttachPin(aPin, channel);
             ledcDetachPin(bPin);
             break;
         case BACKWARD:
             ledcDetachPin(aPin);
-            ledcAttachPin(channel, bPin);
+            ledcAttachPin(bPin, channel);
             break;
         case BRAKE:
-            ledcAttachPin(channel, aPin);
-            ledcAttachPin(channel, bPin);
+            ledcAttachPin(aPin, channel);
+            ledcAttachPin(bPin, channel);
             break;
         case RELEASE:
             ledcDetachPin(aPin);
