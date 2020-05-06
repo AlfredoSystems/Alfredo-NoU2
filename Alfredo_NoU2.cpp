@@ -1,6 +1,6 @@
 #include "esp32-hal-ledc.h"
 #include "Arduino.h"
-#include "Alfredo_NoU.h"
+#include "Alfredo_NoU2.h"
 
 uint8_t RSL::state = RSL_OFF;
 
@@ -12,35 +12,39 @@ NoU_Motor::NoU_Motor(uint8_t motorPort)
 {
     switch (motorPort) {
         case 1:
-            enablePin = MOTOR1_EN;
             aPin = MOTOR1_A;
             bPin = MOTOR1_B;
             channel = MOTOR1_CHANNEL;
             break;
         case 2:
-            enablePin = MOTOR2_EN;
             aPin = MOTOR2_A;
             bPin = MOTOR2_B;
             channel = MOTOR2_CHANNEL;
             break;
         case 3:
-            enablePin = MOTOR3_EN;
             aPin = MOTOR3_A;
             bPin = MOTOR3_B;
             channel = MOTOR3_CHANNEL;
             break;
         case 4:
-            enablePin = MOTOR4_EN;
             aPin = MOTOR4_A;
             bPin = MOTOR4_B;
             channel = MOTOR4_CHANNEL;
             break;
+        case 5:
+            aPin = MOTOR5_A;
+            bPin = MOTOR5_B;
+            channel = MOTOR5_CHANNEL;
+            break;
+        case 6:
+            aPin = MOTOR6_A;
+            bPin = MOTOR6_B;
+            channel = MOTOR6_CHANNEL;
+            break;
     }
     ledcSetup(channel, MOTOR_PWM_FREQ, MOTOR_PWM_RES);
-    ledcAttachPin(enablePin, channel);
     pinMode(aPin, OUTPUT);
     pinMode(bPin, OUTPUT);
-    pinMode(enablePin, OUTPUT);
     setState(RELEASE);
     setPower(0);
 }
@@ -53,21 +57,21 @@ void NoU_Motor::setPower(uint16_t power) {
 
 void NoU_Motor::setState(uint8_t state) {
     switch (state) {
-        case FORWARD:
-            digitalWrite(aPin, HIGH);
-            digitalWrite(bPin, LOW);
+        case FORWARD:	
+            ledcAttachPin(aPin, channel);
+            ledcDetachPin(bPin);
             break;
         case BACKWARD:
-            digitalWrite(aPin, LOW);
-            digitalWrite(bPin, HIGH);
+            ledcDetachPin(aPin);
+            ledcAttachPin(bPin, channel);
             break;
         case BRAKE:
-            digitalWrite(aPin, HIGH);
-            digitalWrite(bPin, HIGH);
+            ledcAttachPin(aPin, channel);
+            ledcAttachPin(bPin, channel);
             break;
         case RELEASE:
-            digitalWrite(aPin, LOW);
-            digitalWrite(bPin, LOW);
+            ledcDetachPin(aPin);
+            ledcDetachPin(bPin);
             break;
     }
     this->state = state;
@@ -118,14 +122,27 @@ float NoU_Motor::getOutput() {
     return output;
 }
 
-NoU_Servo::NoU_Servo(uint8_t pin, uint16_t minPulse, uint16_t maxPulse) {
-    this->pin = pin;
+NoU_Servo::NoU_Servo(uint8_t servoPort, uint16_t minPulse, uint16_t maxPulse) {
+    switch (servoPort) {
+        case 1:
+            pin = SERVO1_PIN;
+            channel = SERVO1_CHANNEL;
+            break;
+        case 2:
+            pin = SERVO2_PIN;
+            channel = SERVO2_CHANNEL;
+            break;
+        case 3:
+            pin = SERVO3_PIN;
+            channel = SERVO3_CHANNEL;
+            break;
+        case 4:
+            pin = SERVO4_PIN;
+            channel = SERVO4_CHANNEL;
+            break;
+    }
     this->minPulse = minPulse;
     this->maxPulse = maxPulse;
-    if (pin == 16) channel = SERVO1_CHANNEL;
-    else if (pin == 17) channel = SERVO2_CHANNEL;
-    else if (pin == 18) channel = SERVO3_CHANNEL;
-    else if (pin == 19) channel = SERVO4_CHANNEL;
     ledcSetup(channel, SERVO_PWM_FREQ, SERVO_PWM_RES);
     ledcAttachPin(pin, channel);
 }
@@ -304,17 +321,6 @@ void NoU_Drivetrain::setMinimumOutput(float minimumOutput) {
         case TWO_MOTORS:
             frontLeftMotor->setMinimumOutput(minimumOutput);
             frontRightMotor->setMinimumOutput(minimumOutput);
-    }
-}
-
-void NoU_Drivetrain::setMaximumOutput(float maximumOutput) {
-    switch (drivetrainType) {
-        case FOUR_MOTORS:
-            rearLeftMotor->setMaximumOutput(maximumOutput);
-            rearRightMotor->setMaximumOutput(maximumOutput);
-        case TWO_MOTORS:
-            frontLeftMotor->setMaximumOutput(maximumOutput);
-            frontRightMotor->setMaximumOutput(maximumOutput);
     }
 }
 

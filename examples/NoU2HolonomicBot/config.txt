@@ -1,0 +1,35 @@
+// NoU2HolonomicBot.ino configuration file
+
+// Select the COM port to use to connect to the robot
+// This should be changed to the COM port of your outgoing Bluetooth connection to the ESP32
+COM = test
+
+// If true, automatically try other COM ports if the specified one fails
+AUTOPORT = false
+
+// The baudrate to use for serial communication
+BAUD = 9600
+
+// The number of decimal places of precision to send for analog axes
+PRECISION = 2
+
+// Enables the use of joysticks. Automatically set to true if any joystick-controlled inputs are present
+JOYSTICK = false
+
+// Target framerate of the driver station and the number of packets to send per second
+FPS = 30
+
+// All NoU2 examples are coded to accept legacy packets
+LEGACY = true
+
+// Create an axis called "xVelocity" controlled by the A and D keys
+axis,xVelocity,a,d
+
+// Create an axis called "yVelocity" controlled by the W and S keys
+axis,yVelocity,w,s
+
+// Create an axis called "rotation" controlled by the Q and E keys
+axis,rotation,q,e
+
+// Create an axis called "servo" controlled by the R and F keys
+axis,servo,r,f
