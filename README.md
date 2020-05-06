@@ -5,8 +5,7 @@ _Library version 1.0.0_
 
 Library for the Alfredo NoU v2.6. Supports motors and servos and has helper methods for different drivetrain types.
 
-### Getting started
----
+## Getting started
 
 This tutorial should help you set up a Windows computer to control a robot that uses an ESP32 and Alfredo NoU2 control system. This setup has been done on Mac before, but a lot of this tutorial won't apply, and it's not recommended unless you really know what you're doing. This tutorial uses the [Arduino IDE](https://www.arduino.cc/en/main/software). You'll need to download and install it if you don't already have it.
 
@@ -26,8 +25,8 @@ This tutorial should help you set up a Windows computer to control a robot that 
 
 8. Boot up the Driver Station (using the [`DriverStation.exe`](https://github.com/ddthj/MiniFRC/blob/master/DriverStation.exe) file). The Driver Station should connect to the robot, and you should be able to control it using the keybinds assigned in the `config.txt` file.
 
-### Troubleshooting
----
+## Troubleshooting
+
 If the Driver Station doesn't connect to the robot:
 * Make sure the ESP32 is on.
 * Make sure a program that broadcasts Bluetooth is uploaded to the ESP32. All the examples in this repository that end with "Bot" broadcast Bluetooth.
