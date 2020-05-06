@@ -1,5 +1,5 @@
-#ifndef Alfredo_NoU2
-#define Alfredo_NoU2
+#ifndef ALFREDO_NOU2_H
+#define ALFREDO_NOU2_H
 
 #include <inttypes.h>
 
