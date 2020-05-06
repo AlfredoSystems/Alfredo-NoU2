@@ -7,7 +7,7 @@ NoU_Motor frontLeftMotor(1);
 NoU_Motor frontRightMotor(2);
 NoU_Motor rearLeftMotor(3);
 NoU_Motor rearRightMotor(4);
-NoU_Servo servo(16);
+NoU_Servo servo(1);
 
 NoU_Drivetrain drivetrain(&frontLeftMotor, &frontRightMotor, &rearLeftMotor, &rearRightMotor);
 
