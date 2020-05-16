@@ -87,7 +87,8 @@ float NoU_Motor::applyCurve(float input) {
     return fmap((fabs(input) < deadband ? 0 : 1) // apply deadband
                 * pow(max(fmap(constrain(fabs(input), -1, 1), deadband, 1, 0, 1), 0.0f), exponent), // account for deadband, apply exponent
                 0, 1, minimumOutput, maximumOutput) // apply minimum and maximum output limits
-            * (input == 0 ? 0 : input > 0 ? 1 : -1); // apply original sign
+            * (input == 0 ? 0 : input > 0 ? 1 : -1) // apply original sign
+			* (inverted ? -1 : 1); // account for inversion
 }
 
 void NoU_Motor::setMinimumOutput(float minimumOutput) {
@@ -192,11 +193,11 @@ float NoU_Drivetrain::applyInputCurve(float input) {
 void NoU_Drivetrain::setMotors(float frontLeftPower, float frontRightPower, float rearLeftPower, float rearRightPower) {
     switch (drivetrainType) {
         case FOUR_MOTORS:
-            rearLeftMotor->set((rearLeftMotor->isInverted() ? -1 : 1) * rearLeftPower);
-            rearRightMotor->set((rearRightMotor->isInverted() ? -1 : 1) * rearRightPower);
+            rearLeftMotor->set(rearLeftPower);
+            rearRightMotor->set(rearRightPower);
         case TWO_MOTORS:
-            frontLeftMotor->set((frontLeftMotor->isInverted() ? -1 : 1) * frontLeftPower);
-            frontRightMotor->set((frontRightMotor->isInverted() ? -1 : 1) * frontRightPower);
+            frontLeftMotor->set(frontLeftPower);
+            frontRightMotor->set(frontRightPower);
     }
 }
 

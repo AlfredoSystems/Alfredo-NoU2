@@ -1,5 +1,5 @@
 # Alfredo-NoU2
-_Library version 1.0.0_
+_Library version 2.0.1_
 
 <img src="https://github.com/AlfredoElectronics/alfredoelectronics.github.io/blob/master/images/nou2-1.png" width="400px">
 
