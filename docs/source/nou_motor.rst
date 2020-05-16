@@ -1,4 +1,4 @@
-NoU2_Motor
+NoU_Motor
 ==========
 
 .. cpp:class:: NoU_Motor

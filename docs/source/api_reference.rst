@@ -6,6 +6,6 @@ Here's where you'll find formal documentation for the library. You'll want these
 .. toctree::
    :maxdepth: 2
 
-   nou2_motor
-   nou2_servo
-   nou2_drivetrain
+   nou_motor
+   nou_servo
+   nou_drivetrain
