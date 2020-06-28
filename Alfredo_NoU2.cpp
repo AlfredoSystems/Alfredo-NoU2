@@ -190,6 +190,11 @@ float NoU_Drivetrain::applyInputCurve(float input) {
             * (input > 0 ? 1 : -1); // apply original sign
 }
 
+float NoU_Drivetrain::applyOutputCurve(float output) {
+    // TODO method stub, determine how curve behaves
+    return output;
+}
+
 void NoU_Drivetrain::setMotors(float frontLeftPower, float frontRightPower, float rearLeftPower, float rearRightPower) {
     switch (drivetrainType) {
         case FOUR_MOTORS:
@@ -322,6 +327,17 @@ void NoU_Drivetrain::setMinimumOutput(float minimumOutput) {
         case TWO_MOTORS:
             frontLeftMotor->setMinimumOutput(minimumOutput);
             frontRightMotor->setMinimumOutput(minimumOutput);
+    }
+}
+
+void NoU_Drivetrain::setMaximumOutput(float maximumOutput) {
+    switch (drivetrainType) {
+        case FOUR_MOTORS:
+            rearLeftMotor->setMaximumOutput(maximumOutput);
+            rearRightMotor->setMaximumOutput(maximumOutput);
+        case TWO_MOTORS:
+            frontLeftMotor->setMaximumOutput(maximumOutput);
+            frontRightMotor->setMaximumOutput(maximumOutput);
     }
 }
 
