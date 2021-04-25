@@ -3,7 +3,7 @@ NoU_Motor
 
 .. cpp:class:: NoU_Motor
 
-	Controls the output to one of the motor ports on the NoU2.
+	Controls the output to one of the motor ports on the NoU2. The duty cycle of the 39 kHz PWM signal generated has 10 bits of precision (i.e. 0...1023).
 
 	**Public Functions**
 
