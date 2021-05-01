@@ -1,11 +1,13 @@
 # Alfredo-NoU2
-_Library version 2.0.1_
+_Library version 2.0.2_
 
 <img src="https://github.com/AlfredoElectronics/alfredoelectronics.github.io/blob/master/images/nou2-1.png" width="400px">
 
 Library for the Alfredo NoU v2.6. Supports motors and servos and has helper methods for different drivetrain types.
 
 ## Getting started
+
+**NOTE**: This tutorial still references the [old driver station](https://github.com/ddthj/MiniFRC), which is now outdated. Check out [AlfredoConnect](https://github.com/AlfredoElectronics/AlfredoConnect-Desktop) for an up-to-date driver station.
 
 This tutorial should help you set up a Windows computer to control a robot that uses an ESP32 and Alfredo NoU2 control system. This setup has been done on Mac before, but a lot of this tutorial won't apply, and it's not recommended unless you really know what you're doing. This tutorial uses the [Arduino IDE](https://www.arduino.cc/en/main/software). You'll need to download and install it if you don't already have it.
 
