@@ -112,7 +112,7 @@ class NoU_Drivetrain {
                         NoU_Motor* rearLeftMotor, NoU_Motor* rearRightMotor);
         void tankDrive(float leftPower, float rightPower);
         void arcadeDrive(float throttle, float rotation, boolean invertedReverse = false);
-        void curvatureDrive(float throttle, float rotation, boolean isQuickTurn);
+        void curvatureDrive(float throttle, float rotation, boolean isQuickTurn = true);
         void holonomicDrive(float xVelocity, float yVelocity, float rotation);
         void setMinimumOutput(float minimumOutput);
         void setMaximumOutput(float maximumOutput);
