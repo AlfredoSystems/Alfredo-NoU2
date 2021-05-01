@@ -34,12 +34,7 @@ void loop() {
         }
     }
     servo.write((servoAxis + 1) * 90);
-    if (fabs(throttle) < 0.2) {
-        drivetrain.curvatureDrive(throttle, rotation, true);
-    }
-    else {
-        drivetrain.curvatureDrive(throttle, rotation, false);
-    }
+    drivetrain.curvatureDrive(throttle, rotation);
 
     // RSL logic
     if (millis() - lastTimePacketReceived > 1000) {

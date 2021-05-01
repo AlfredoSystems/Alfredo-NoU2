@@ -235,11 +235,13 @@ void NoU_Drivetrain::arcadeDrive(float throttle, float rotation, boolean inverte
     setMotors(leftPower, rightPower, leftPower, rightPower);
 }
 
-void NoU_Drivetrain::curvatureDrive(float throttle, float rotation, boolean isQuickTurn, boolean invertedReverse) {
+void NoU_Drivetrain::curvatureDrive(float throttle, float rotation, boolean isQuickTurn) {
     throttle = applyInputCurve(throttle);
     rotation = applyInputCurve(rotation);
+
     float angularPower;
     boolean overPower;
+
     if (isQuickTurn) {
         if (fabs(throttle) < quickStopThreshold) {
             quickStopAccumulator = (1 - quickStopAlpha) * quickStopAccumulator + quickStopAlpha * rotation * 2;
@@ -250,27 +252,17 @@ void NoU_Drivetrain::curvatureDrive(float throttle, float rotation, boolean isQu
     else {
         overPower = false;
         angularPower = fabs(throttle) * rotation - quickStopAccumulator;
-    }
 
-    if (quickStopAccumulator > 1) quickStopAccumulator--;
-    else if (quickStopAccumulator < -1) quickStopAccumulator++;
-    else quickStopAccumulator = 0;
+        if (quickStopAccumulator > 1) quickStopAccumulator--;
+        else if (quickStopAccumulator < -1) quickStopAccumulator++;
+        else quickStopAccumulator = 0;
+    }
 
     float leftPower;
     float rightPower;
-    if (throttle < 0 && invertedReverse) {
-        leftPower = throttle - angularPower;
-        rightPower = throttle + angularPower;
-    }
-    else {
-        leftPower = throttle + angularPower;
-        rightPower = throttle - angularPower;
-    }
 
-    if (throttle < 0 && invertedReverse) {
-        leftPower = -leftPower;
-        rightPower = -rightPower;
-    }
+    leftPower = throttle + angularPower;
+    rightPower = throttle - angularPower;
 
     if (overPower) {
         if (leftPower > 1) {
