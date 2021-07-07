@@ -11,13 +11,25 @@ Library for the Alfredo NoU v2.6. Supports motors and servos and has helper meth
 
 This tutorial should help you set up a Windows computer to control a robot that uses an ESP32 and Alfredo NoU2 control system. This setup has been done on Mac before, but a lot of this tutorial won't apply, and it's not recommended unless you really know what you're doing. This tutorial uses the [Arduino IDE](https://www.arduino.cc/en/main/software). You'll need to download and install it if you don't already have it.
 
-1. Firstly, we'll need to configure the Arduino IDE to upload to an ESP32. Check out [this board configuration tutorial](https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/) for instructions on how to do that.
+### Basic setup
 
-2. Download this repository as a ZIP by clicking the green button on the right that says **Clone or download**, then **Download ZIP**.
+1. Configure the Arduino IDE to upload to an ESP32. Check out [this board configuration tutorial](https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/) for instructions on how to do that.
 
-3. In the Arduino IDE, add this repository as a library by clicking **Sketch** > **Include Library** > **Add .ZIP Library...**, and selecting the ZIP file you downloaded.
+2. Download this repository as a ZIP. Click the green button on this page that says `Clone or download`, then `Download ZIP`.
 
-4. Make sure you've selected the right COM port and board (following the [board configuration tutorial](https://randomnerdtutorials.com/installing-the-esp32-board-in-arduino-ide-windows-instructions/) above) and upload one of the files in the `examples` folder to an ESP32 mounted on a NoU2. A good first test that doesn't require Bluetooth or the Driver Station is `NoU2MotorParty.ino`, which pulses all the connected motors and servos.
+3. Add this library to the Arduino IDE. In the Arduino IDE, Click `Sketch` > `Include Library` > `Add .ZIP Library...`, and select the ZIP file you downloaded.
+
+4. Connect your ESP32 and select the COM port. Connect your ESP32 to your computer using a micro USB cable. In the Arduino IDE, select the corresponding COM port under `Tools` > `Port`. The correct COM port may say `(Silicon Labs)` next to it. If none of them do, you can unplug and replug the USB to see which COM port disappears and reappears.
+
+5. Make sure you have the right board selected. In the Arduino IDE, go to `Tools` > `Board` > `ESP32 Arduino` (if you don't see this, make sure you completed step 1) and select `ESP32 Dev Module`.
+
+6. Open the `NoU2MotorParty` example. In the Arduino IDE, go to `File` > `Examples` > `Alfredo-NoU2` (you might need to scroll down) and select `NoU2MotorParty`. This will open a new window with the example opened. You can close the old one.
+
+7. Upload `NoU2MotorParty` to your ESP32. In the window with `NoU2MotorParty` opened, click the upload button (the arrow in the top left). When the console on the bottom of the window starts showing `Connecting....._____.....`, hold down the `BOOT` button on the ESP32.
+
+Once the top of the console says `Done uploading.`, the example is on the ESP32 and you can unplug it from the computer. When connected to an Alfredo NoU2, the `NoU2MotorParty` example we uploaded will pulse any connected motors and servos back and forth.
+
+### Driving a robot
 
 5. Once you've tested out the motor party code, open up the code for a robot, like any of the sketches in `examples` that end with "Bot". Before you upload to your ESP32, edit the code make sure to configure the name that the Bluetooth connection will appear as when pairing with the ESP32. In the examples, the default name is "DefaultBot", and you should change it to your own name by editing the line `bluetooth.begin("DefaultBot")` to something like `bluetooth.begin("My Cool Robot")`. Now's a good time to do this because, if you wait until later to change it, you'll have to restart your computer to be able to pair with the ESP32 under the new name.
 
