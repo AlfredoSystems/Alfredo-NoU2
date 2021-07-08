@@ -1,3 +1,10 @@
+/**
+ * This example is for the legacy MiniFRC driver station, found here:
+ * https://github.com/ddthj/MiniFRC. To use the AlfredoConnect driver station, check
+ * out AlfredoConnect-Receive, which includes examples for the Alfredo NoU2:
+ * https://github.com/AlfredoElectronics/AlfredoConnect-Receive.
+ */
+
 #include <BluetoothSerial.h>
 #include <Alfredo_NoU2.h>
 
