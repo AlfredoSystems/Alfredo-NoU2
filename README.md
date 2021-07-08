@@ -31,7 +31,7 @@ Once the top of the console says `Done uploading.`, the example is on the ESP32 
 
 ### Driving a robot
 
-[AlfredoConnect](https://github.com/AlfredoElectronics/AlfredoConnect-Desktop/releases) is a driver station that runs on Windows for controlling robots over Bluetooth using your computer's keyboard or connected gamepads. It has a corresponding Arduino library, [AlfredoConnect-Receive](https://github.com/AlfredoElectronics/AlfredoConnect-Receive), which contains examples for using AlfredoConnect with the Alfredo NoU2.
+[AlfredoConnect](https://github.com/AlfredoElectronics/AlfredoConnect-Desktop/releases) is a driver station that runs on Windows for controlling robots over Bluetooth using your computer's keyboard or connected gamepads. It has a corresponding Arduino library, [AlfredoConnect-Receive](https://github.com/AlfredoElectronics/AlfredoConnect-Receive), which contains examples for using AlfredoConnect with the Alfredo NoU2. After following the [basic setup tutorial](#basic-setup) here, follow the [getting started tutorials for AlfredoConnect-Receive](https://github.com/AlfredoElectronics/AlfredoConnect-Receive#getting-started) to learn how to control your robot using AlfredoConnect.
 
 ## Troubleshooting
 
