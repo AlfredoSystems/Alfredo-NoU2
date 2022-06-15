@@ -19,13 +19,13 @@ This tutorial will guide you through uploading example code to your ESP32 with a
 
 4. **Add this library to the Arduino IDE**. In the Arduino IDE, Click `Sketch` > `Include Library` > `Add .ZIP Library...`, and select the ZIP file you downloaded.
 
-5. **Open the `NoU2MotorParty` example**. In the Arduino IDE, go to `File` > `Examples` > `Alfredo-NoU2` (you might need to scroll down) and select `NoU2MotorParty`. This will open a new window with the example opened. You can close the old one.
+5. **Open the `NoU2MotorParty` example**. In the Arduino IDE, go to `File` > `Examples` > `Alfredo-NoU2-master` (you might need to scroll down) and select `NoU2MotorParty`. This will open a new window with the example opened. You can close the old one.
 
-6. **Connect your ESP32 and select the COM port**. Connect your ESP32 to your computer using a micro USB cable. In the Arduino IDE, select the corresponding COM port under `Tools` > `Port`. The correct COM port may say `(Silicon Labs)` next to it. If none of them do, you can unplug and replug the USB to see which COM port disappears and reappears.
+6. **Connect your ESP32 and select the COM port**. Connect your ESP32 to your computer using a micro USB cable. In the Arduino IDE, select the corresponding COM port under `Tools` > `Port`. The correct COM port may say `(Silicon Labs)` next to it. If none of them do, you can unplug and replug the USB to see which COM port disappears and reappears. If you cannot find any COM port for the ESP32, try the [troubleshooting steps](#cant-connect-to-the-esp32-over-usb-to-upload).
 
 7. **Select ESP32 as the board type**. In the Arduino IDE, go to `Tools` > `Board` > `ESP32 Arduino` and select `ESP32 Dev Module`. On older versions of Arduino, it may just be `Tools` > `Board` > `ESP32 Dev Module`.
 
-8. **Upload `NoU2MotorParty` to your ESP32**. In the window with `NoU2MotorParty` opened, click the upload button (the arrow in the top left). When the console on the bottom of the window starts showing `Connecting....._____.....`, hold down the `BOOT` button on the ESP32.
+8. **Upload `NoU2MotorParty` to your ESP32**. In the window with `NoU2MotorParty` opened, click the upload button (the arrow in the top left). If the console on the bottom of the window starts showing `Connecting....._____.....`, hold down the `BOOT` button on the ESP32.
 
 Once the top of the console says `Done uploading.`, the example is on the ESP32 and you can unplug it from the computer. When connected to an Alfredo NoU2, the `NoU2MotorParty` example will pulse any connected motors and servos back and forth.
 
@@ -38,6 +38,7 @@ Once the top of the console says `Done uploading.`, the example is on the ESP32 
 ### Can't connect to the ESP32 over USB to upload
 * The most common cause of this is accidentally using a power-only micro USB cable, which won't allow the computer and ESP32 to communicate, but will power on the ESP32. Try a new cable. When plugging in the ESP32, you should hear a sound on the computer indicating it's plugged in.
 * Make sure you're selecting the right COM port. The most common way to check is to unplug the ESP32, check the ports list in the Arduino IDE, (`Tools` > `Port`), plug the ESP32 in, and then check the list again to see what COM port got added. On Windows, you can also open Device Manager (`Win+R`, type in `devmgmt.msc`) and check the `Ports (COM & LPT)` dropdown, which should include a port list similar to the one in the Arduino IDE.
+* You may need to install appropriate drivers for [CP210x](https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers) or [FTDI](https://ftdichip.com/drivers/vcp-drivers/), depending on your ESP32 module type. If unsure, get both.
 
 ## Links
 
