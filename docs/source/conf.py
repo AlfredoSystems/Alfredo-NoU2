@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Alfredo-NoU2'
-copyright = '2020, Kaiz Akhtar'
+copyright = '2022, Kaiz Akhtar'
 author = 'Kaiz Akhtar'
 
 # The full version, including alpha/beta/rc tags
