@@ -8,7 +8,7 @@ Setup
 
 1. **Get the Arduino IDE.** This lets us write and upload programs to our robot. Download it from the `Arduino website <https://www.arduino.cc/en/main/software>`_ and install it.
 
-2. **Get copies of the `Alfredo-NoU2`_ and `AlfredoConnect-Receive`_ libraries.** Go to their GitHub pages and click the green button that says **Code**, then **Download ZIP**.
+2. **Get copies of the** `Alfredo-NoU2`_ **and** `AlfredoConnect-Receive`_ **libraries.** Go to their GitHub pages and click the green button that says **Code**, then **Download ZIP**.
 
 3. **Add those libraries to the Arduino IDE.** In the Arduino IDE, click **Sketch** > **Include Library** > **Add .ZIP Library...**, and select the two ZIP files you downloaded.
 
@@ -20,7 +20,7 @@ Setup
     
 Then, go to **Tools** > **Board** > **Boards Manager**. Search for "ESP32" and install the package "esp32 by Espressif Systems".
 
-5. **Install AlfredoConnect.** We've already prepared AlfredoConnect-Receive, the library we'll use on the robot to get input from the computer. Now we need to get AlfredoConnect-Desktop, the Windows application that lets us talk to the robot. Download and install its latest release `here <AlfredoConnect>`_.
+5. **Install AlfredoConnect.** We've already prepared AlfredoConnect-Receive, the library we'll use on the robot to get input from the computer. Now we need to get AlfredoConnect-Desktop, the Windows application that lets us talk to the robot. Download and install its latest release `here`__.
 
 Basics
 ------
@@ -62,9 +62,9 @@ Next, we'll declare the motors and servos we want to use.
     NoU_Motor leftMotor(2);
     NoU_Servo armServo(3);
 
-In the first line here, we say that there's a ``NoU_Motor`` called ``leftMotor`` assigned to motor port 2. You can check which motor port your motor is plugged into by checking for the little labels where the wires plug in. For example, motor port 2 has labels that say **M2-** and **M2+** on the NoU2. Similarly, in the second line, we construct an object called ``armServo`` of type ``NoU_Servo`` on servo port 3. The servo pins on the NoU2 are labeled **S1**, **S2**, and so on.
+In the first line here, we say that there's a :cpp:class:`NoU_Motor` called ``leftMotor`` assigned to motor port 2. You can check which motor port your motor is plugged into by checking for the little labels where the wires plug in. For example, motor port 2 has labels that say **M2-** and **M2+** on the NoU2. Similarly, in the second line, we construct an object called ``armServo`` of type :cpp:class:`NoU_Servo` on servo port 3. The servo pins on the NoU2 are labeled **S1**, **S2**, and so on.
 
-.. note:: ``NoU_Motor`` is a **class** defined in the Alfredo-NoU2 library. A class is like a template that can be used to make an **object**, a specific instance of a class. In this case, the name we give to the specific instance of a ``NoU_Motor`` we're creating is ``leftMotor``, but we're allowed to call it whatever we want (like ``rightMotor``, ``m``, or ``john``). Lastly, we put a 2 in parentheses at the end to say we want motor port 2. 
+.. note:: :cpp:class:`NoU_Motor` is a **class** defined in the Alfredo-NoU2 library. A class is like a template that can be used to make an **object**, a specific instance of a class. In this case, the name we give to the specific instance of a :cpp:class:`NoU_Motor` we're creating is ``leftMotor``, but we're allowed to call it whatever we want (like ``rightMotor``, ``m``, or ``john``). Lastly, we put a 2 in parentheses at the end to say we want motor port 2. 
 
 Your setup is likely not just one motor and one servo, so make sure you have one line for each motor and/or servo. Make sure each one has a different name and the correct motor or servo port number.
 
@@ -134,7 +134,7 @@ Now, we'll add code to the ``loop`` function to control our motors.
 
 This code will make ``leftMotor`` move while the **Q** key is held on AlfredoConnect and stop when it's not held. Don't forget that your motors may be called something different and you may have more than one, so change the name and duplicate as needed.
 
-.. note:: How did we know to set ``leftMotor`` to 1 to start it and 0 to turn it off? You can look at the `API Reference <api_reference.html>`_ to see specific details about all the functions in Alfredo-NoU2. Specifically, the :cpp:func:`NoU_Motor::set` function takes a number between -1 (full reverse) and 1 (full forward), including decimal numbers.
+.. note:: How did we know to set ``leftMotor`` to 1 to start it and 0 to turn it off? You can look at the :ref:`api-reference` to see specific details about all the functions in Alfredo-NoU2. Specifically, the :cpp:func:`NoU_Motor::set` function takes a number between -1 (full reverse) and 1 (full forward), including decimal numbers.
    
 .. note:: AlfredoConnect lets you use most keys on your keyboard to control things on your robot. You can see a full list of the supported keys `here <https://github.com/AlfredoSystems/AlfredoConnect-Receive/blob/master/Keys.h>`_. For example, in the above code, you can replace ``Key::Q`` with ``Key::Comma`` or ``Key::Backspace``.
 
@@ -334,3 +334,4 @@ Our completed sketch will now let us drive the robot with WASD and move the serv
 .. _Alfredo-NoU2: https://github.com/AlfredoSystems/Alfredo-NoU2
 .. _AlfredoConnect-Receive: https://github.com/AlfredoSystems/AlfredoConnect-Receive
 .. _AlfredoConnect: https://github.com/AlfredoSystems/AlfredoConnect-Desktop/releases/latest
+__ AlfredoConnect_

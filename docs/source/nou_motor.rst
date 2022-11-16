@@ -88,7 +88,7 @@ NoU_Motor
 	
 	.. cpp:function:: void setMinimumOutput(float minimumOutput)
 	
-		Sets the minimum power that should be sent to the motor when using the :cpp:func:`set` function. Together with :cpp:func:`setMaximumOutput`, this function allows users to map inputs on the interval (0, 1] to (``minimumOutput``, ``maximumOutput``]. That is, if :cpp:func:`set` was passed an input just above zero, it would be mapped to an output just above :cpp:func:`minimumOutput`, which would be sent to the motor.
+		Sets the minimum power that should be sent to the motor when using the :cpp:func:`set` function. Together with :cpp:func:`setMaximumOutput`, this function allows users to map inputs on the interval (0, 1] to (``minimumOutput``, ``maximumOutput``]. That is, if :cpp:func:`set` was passed an input just above zero, it would be mapped to an output just above ``minimumOutput``, which would be sent to the motor.
 		
 		:param float minimumOutput: `0...1` The minimum power that should be sent to the motor when using ``set``.
 		
