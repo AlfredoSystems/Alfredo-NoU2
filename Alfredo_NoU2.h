@@ -116,8 +116,8 @@ class NoU_Drivetrain {
         void holonomicDrive(float xVelocity, float yVelocity, float rotation);
         void setMinimumOutput(float minimumOutput);
         void setMaximumOutput(float maximumOutput);
-        void setInputExponent(float inputExponent);
-        void setInputDeadband(float inputDeadband);
+        void setExponent(float exponent);
+        void setDeadband(float deadband);
     private:
         void setMotors(float frontLeftPower, float frontRightPower, float rearLeftPower, float rearRightPower);
         float applyInputCurve(float input);
