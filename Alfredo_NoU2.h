@@ -132,8 +132,8 @@ class NoU_Drivetrain {
         float quickStopAccumulator;
         float minimumOutput = 0;
         float maximumOutput = 1;
-        float inputExponent = 1;
-        float inputDeadband = 0;
+        float exponent = 1;
+        float deadband = 0;
 };
 
 class RSL {
