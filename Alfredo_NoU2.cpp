@@ -185,8 +185,8 @@ NoU_Drivetrain::NoU_Drivetrain(NoU_Motor* frontLeftMotor, NoU_Motor* frontRightM
 { }
 
 float NoU_Drivetrain::applyInputCurve(float input) {
-    return (fabs(input) < deadband ? 0 : 1) // apply deadband
-            * pow(max(fmap(constrain(fabs(input), -1, 1), deadband, 1, 0, 1), 0.0f), exponent) // account for deadband, apply exponent
+    return (fabs(input) < inputDeadband ? 0 : 1) // apply deadband
+            * pow(max(fmap(constrain(fabs(input), -1, 1), inputDeadband, 1, 0, 1), 0.0f), inputExponent) // account for deadband, apply exponent
             * (input > 0 ? 1 : -1); // apply original sign
 }
 
@@ -328,14 +328,14 @@ void NoU_Drivetrain::setMaximumOutput(float maximumOutput) {
     }
 }
 
-void NoU_Drivetrain::setExponent(float exponent) {
-    exponent = max(0.0f, exponent);
-    this->exponent = exponent;
+void NoU_Drivetrain::setInputExponent(float inputExponent) {
+    inputExponent = max(0.0f, inputExponent);
+    this->inputExponent = inputExponent;
 }
 
-void NoU_Drivetrain::setDeadband(float deadband) {
-    deadband = constrain(deadband, 0, 1);
-    this->deadband = deadband;
+void NoU_Drivetrain::setInputDeadband(float inputDeadband) {
+    inputDeadband = constrain(inputDeadband, 0, 1);
+    this->inputDeadband = inputDeadband;
 }
 
 void RSL::initialize() {

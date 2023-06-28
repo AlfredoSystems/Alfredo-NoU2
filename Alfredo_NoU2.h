@@ -116,8 +116,8 @@ class NoU_Drivetrain {
         void holonomicDrive(float xVelocity, float yVelocity, float rotation);
         void setMinimumOutput(float minimumOutput);
         void setMaximumOutput(float maximumOutput);
-        void setExponent(float exponent);
-        void setDeadband(float deadband);
+        void setInputExponent(float inputExponent);
+        void setInputDeadband(float inputDeadband);
     private:
         void setMotors(float frontLeftPower, float frontRightPower, float rearLeftPower, float rearRightPower);
         float applyInputCurve(float input);
@@ -132,8 +132,8 @@ class NoU_Drivetrain {
         float quickStopAccumulator;
         float minimumOutput = 0;
         float maximumOutput = 1;
-        float exponent = 1;
-        float deadband = 0;
+        float inputExponent = 1;
+        float inputDeadband = 0;
 };
 
 class RSL {
