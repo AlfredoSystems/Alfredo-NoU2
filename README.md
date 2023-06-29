@@ -1,7 +1,7 @@
 # Alfredo-NoU2
-_Library version 2.0.2_
+_Library version 2.0.4_
 
-<img src="https://github.com/AlfredoElectronics/alfredoelectronics.github.io/blob/master/images/nou2-1.png" width="400px">
+<img src="https://github.com/AlfredoSystems/Alfredo-NoU2/assets/10576371/48e94465-ccca-42c6-9c10-53a1b260e802" width="400px">
 
 Library for the Alfredo NoU v2.6. Supports motors and servos and has helper methods for different drivetrain types.
 

@@ -317,6 +317,17 @@ void NoU_Drivetrain::setMinimumOutput(float minimumOutput) {
     }
 }
 
+void NoU_Drivetrain::setMaximumOutput(float maximumOutput) {
+    switch (drivetrainType) {
+        case FOUR_MOTORS:
+            rearLeftMotor->setMaximumOutput(maximumOutput);
+            rearRightMotor->setMaximumOutput(maximumOutput);
+        case TWO_MOTORS:
+            frontLeftMotor->setMaximumOutput(maximumOutput);
+            frontRightMotor->setMaximumOutput(maximumOutput);
+    }
+}
+
 void NoU_Drivetrain::setInputExponent(float inputExponent) {
     inputExponent = max(0.0f, inputExponent);
     this->inputExponent = inputExponent;
