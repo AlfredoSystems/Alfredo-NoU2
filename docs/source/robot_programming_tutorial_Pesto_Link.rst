@@ -186,7 +186,7 @@ Now that we've uploaded that sketch, the ESP32 will advertise itself as a Blueto
 
 **Press/click CONNECT in `PestoLink`_.** A pairing menu will appear, find and select the robot name you chose.
 
-You should now be connected to your robot in AlfredoConnect via Bluetooth. Press the buttons you assigned (this tutorial used the 0 and 1 buttons) and the motors and servos you have connected to your robot should move.
+You should now be connected to your robot in PestoLink via Bluetooth. Press the buttons you assigned (this tutorial used the 0 and 1 buttons) and the motors and servos you have connected to your robot should move.
     
 Robot Programming
 -----------------
@@ -234,7 +234,7 @@ Lastly, we'll make our servo move when we press **button 0**.
     
 .. code-block:: cpp
 
-    if (AlfredoConnect.buttonHeld(0)) {
+    if (PestoLink.buttonHeld(0)) {
         basketServo.write(180);
     }
     else {
@@ -251,7 +251,9 @@ Our completed sketch will now let us drive the robot with WASD and move the serv
     NoU_Motor leftMotor(1);
     NoU_Motor rightMotor(2);
     NoU_Servo basketServo(1);
-    
+	
+    NoU_Drivetrain drivetrain(&leftMotor, &rightMotor);
+
     void setup() {
         PestoLink.begin("Name me!"); // Change this name before uploading!
     }
@@ -268,7 +270,7 @@ Our completed sketch will now let us drive the robot with WASD and move the serv
         drivetrain.arcadeDrive(throttle, rotation);
 
         // Control the servo
-        if (AlfredoConnect.buttonHeld(0)) {
+        if (PestoLink.buttonHeld(0)) {
             basketServo.write(180);
         }
         else {
