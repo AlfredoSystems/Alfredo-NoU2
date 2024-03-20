@@ -1,7 +1,7 @@
 Robot Programming with PestoLink-Receive
 =============================================
 
-This tutorial will guide you through programming, uploading, and driving a robot. In this tutorial we will use the Arduino libraries `Alfredo-NoU2`_ and `PestoLink-Receive`_. We will also use the web app `PestoLink`_ to control a robot wirelessly.
+This tutorial will guide you through programming, uploading, and driving a robot. In this tutorial we will use the Arduino libraries `Alfredo-NoU2`_ and `PestoLink-Receive`_. We will also use the web app `PestoLink <https://pestol.ink/>`_ to control a robot wirelessly.
 
 Setup
 -----
@@ -20,15 +20,18 @@ Setup
     
 Then, go to **Tools** > **Board** > **Boards Manager**. Search for "ESP32" and install the package "esp32 by Espressif Systems".
 
-1. **Bookmark PestoLink.** Decide what device you will use to drive your robot. Laptops or phones are ideal. You will need a web browser. PestoLink works with Google Chrome on Windows, Android, MacOS, Linux, and ChromeOS. On iOS `Bluefy <https://apps.apple.com/us/app/bluefy-web-ble-browser/id1492822055>`_ is the best option so far. go to `https://pestol.ink <https://pestol.ink>`_ and bookmark the page.
+5. **Decide what device you will use to drive your robot.** With a laptop, you can control your robot using the keyboard or a gamepad (for example an Xbox controller). With a smartphone, you can drive your robot with the touch screen.
 
+6. **Pick a Web Browser.** PestoLink works best with Google Chrome on Windows, Android, MacOS, Linux, and ChromeOS. On iOS `Bluefy <https://apps.apple.com/us/app/bluefy-web-ble-browser/id1492822055>`_ is the best option.
+
+7. **Bookmark PestoLink.** go to `https://pestol.ink/ <https://pestol.ink/>`_ and bookmark the page.
 
 Basics
 ------
 
 We're going to start by writing a simple program to test using PestoLink to control any motors or servos connected to your NoU2 via the ESP32's Bluetooth.
 
-.. note:: For this section, you'll at least need an ESP32 on an Alfredo NoU2 ready to drive some motors. Follow our `Build Tutorial<https://youtu.be/rcdbkeYA1rs>`_ to set that up before continuing here.
+.. note:: For this section, you'll at least need an ESP32 on an Alfredo NoU2 ready to drive some motors. Follow our `Build Tutorial <https://youtu.be/rcdbkeYA1rs>`_ to set that up before continuing here.
    
 .. seealso:: If you just need an example program to test motor and servo movement without an explanation, use the `motor party <https://github.com/AlfredoSystems/Alfredo-NoU2/blob/master/examples/NoU2MotorParty/NoU2MotorParty.ino>`_ example sketch included with Alfredo-NoU2.
    
@@ -188,7 +191,7 @@ You should now be connected to your robot in AlfredoConnect via Bluetooth. Press
 Robot Programming
 -----------------
 
-Now, we'll adapt the sketch from the previous section to drive a robot. We'll assume the robot is the one from the `Build Tutorial<https://youtu.be/rcdbkeYA1rs>`_, so it has a servo to raise and lower a basket and a drivetrain with two motors (technically, four motors using only two motor ports).
+Now, we'll adapt the sketch from the previous section to drive a robot. We'll assume the robot is the one from the `Build Tutorial <https://youtu.be/rcdbkeYA1rs>`_, so it has a servo to raise and lower a basket and a drivetrain with two motors (technically, four motors using only two motor ports).
 
 First, we'll change our list of motors and servos to match our robot.
 
@@ -207,7 +210,7 @@ Now, we'll create a ``NoU_Drivetrain`` with our two motors. We'll use this to mo
 Next, we'll change the ``loop`` function to make the robot drive. This will be different depending on whether you want to control your robot with a keyboard or a gamepad.
    
 On-Screen Joystick
-********
+******************
 
 We'll use the On-Screen Joystick to drive the robot in this tutorial, but you can use a gamepad or the WASD Keys alternitively. The vertical axis (axis 0) will control the throttle of the robot and the horizontal axis (axis 1) will control the rotation.
 
@@ -275,7 +278,5 @@ Our completed sketch will now let us drive the robot with WASD and move the serv
         PestoLink.update();
     }
 
-.. _Alfredo-NoU2: https://github.com/AlfredoSystems/Alfredo-NoU2
-.. _PestoLink-Receive: https://github.com/AlfredoSystems/PestoLink-Receive
-.. __PestoLink: https://pestol.ink
-__ _PestoLink_
+.. _Alfredo-NoU2: https://github.com/AlfredoSystems/Alfredo-NoU2/
+.. _PestoLink-Receive: https://github.com/AlfredoSystems/PestoLink-Receive/
