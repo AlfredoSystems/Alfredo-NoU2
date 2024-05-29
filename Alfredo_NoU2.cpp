@@ -42,7 +42,13 @@ NoU_Motor::NoU_Motor(uint8_t motorPort)
             channel = MOTOR6_CHANNEL;
             break;
     }
-    ledcSetup(channel, MOTOR_PWM_FREQ, MOTOR_PWM_RES);
+	
+    #if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
+      // Code for version 3.x
+    #else
+      ledcSetup(channel, MOTOR_PWM_FREQ, MOTOR_PWM_RES);
+    #endif
+	
     pinMode(aPin, OUTPUT);
     pinMode(bPin, OUTPUT);
     setState(RELEASE);
@@ -51,30 +57,70 @@ NoU_Motor::NoU_Motor(uint8_t motorPort)
 
 void NoU_Motor::setPower(uint16_t power) {
     power = min(power, (uint16_t)((1 << MOTOR_PWM_RES) - 1));
-    ledcWrite(channel, power);
+    #if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
+        switch (this->state) {
+			case FORWARD:	
+				ledcWrite(aPin, power);
+				break;
+			case BACKWARD:
+				ledcWrite(bPin, power);
+				break;
+			case BRAKE:
+				ledcWrite(aPin, power);
+				ledcWrite(bPin, power);
+				break;
+			case RELEASE:
+				break;
+		}
+    #else
+      ledcWrite(channel, power);
+    #endif
+
     this->output = (state == BACKWARD ? -1 : 1) * ((float)power / ((1 << MOTOR_PWM_RES) - 1));
 }
 
 void NoU_Motor::setState(uint8_t state) {
-    switch (state) {
-        case FORWARD:	
-            ledcAttachPin(aPin, channel);
-            ledcDetachPin(bPin);
-            break;
-        case BACKWARD:
-            ledcDetachPin(aPin);
-            ledcAttachPin(bPin, channel);
-            break;
-        case BRAKE:
-            ledcAttachPin(aPin, channel);
-            ledcAttachPin(bPin, channel);
-            break;
-        case RELEASE:
-            ledcDetachPin(aPin);
-            ledcDetachPin(bPin);
-            break;
-    }
-    this->state = state;
+	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
+      	switch (state) {
+			case FORWARD:	
+				ledcAttach(aPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES);
+				ledcDetach(bPin);
+				break;
+			case BACKWARD:
+				ledcDetach(aPin);
+				ledcAttach(bPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES);
+				break;
+			case BRAKE:
+				ledcAttach(aPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES);
+				ledcAttach(bPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES);
+				break;
+			case RELEASE:
+				ledcDetach(aPin);
+				ledcDetach(bPin);
+				break;
+		}
+		this->state = state;
+    #else
+		switch (state) {
+			case FORWARD:	
+				ledcAttachPin(aPin, channel);
+				ledcDetachPin(bPin);
+				break;
+			case BACKWARD:
+				ledcDetachPin(aPin);
+				ledcAttachPin(bPin, channel);
+				break;
+			case BRAKE:
+				ledcAttachPin(aPin, channel);
+				ledcAttachPin(bPin, channel);
+				break;
+			case RELEASE:
+				ledcDetachPin(aPin);
+				ledcDetachPin(bPin);
+				break;
+		}
+		this->state = state;
+    #endif
 }
 
 void NoU_Motor::set(float output) {
@@ -144,8 +190,13 @@ NoU_Servo::NoU_Servo(uint8_t servoPort, uint16_t minPulse, uint16_t maxPulse) {
     }
     this->minPulse = minPulse;
     this->maxPulse = maxPulse;
-    ledcSetup(channel, SERVO_PWM_FREQ, SERVO_PWM_RES);
-    ledcAttachPin(pin, channel);
+	
+	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
+		ledcAttach(pin, SERVO_PWM_FREQ, SERVO_PWM_RES);
+    #else
+		ledcSetup(channel, SERVO_PWM_FREQ, SERVO_PWM_RES);
+		ledcAttachPin(pin, channel);
+    #endif
 }
 
 void NoU_Servo::write(float degrees) {
@@ -154,7 +205,12 @@ void NoU_Servo::write(float degrees) {
 
 void NoU_Servo::writeMicroseconds(uint16_t pulseLength) {
     this->pulse = pulseLength;
-    ledcWrite(channel, fmap(pulseLength, 0, 20000, 0, (1 << SERVO_PWM_RES) - 1));
+	
+	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
+      ledcWrite(pin, fmap(pulseLength, 0, 20000, 0, (1 << SERVO_PWM_RES) - 1));
+    #else
+      ledcWrite(channel, fmap(pulseLength, 0, 20000, 0, (1 << SERVO_PWM_RES) - 1));
+    #endif
 }
 
 void NoU_Servo::setMinimumPulse(uint16_t minPulse) {
@@ -328,8 +384,12 @@ void NoU_Drivetrain::setInputDeadband(float inputDeadband) {
 }
 
 void RSL::initialize() {
-    ledcSetup(RSL_CHANNEL, RSL_PWM_FREQ, RSL_PWM_RES);
-    ledcAttachPin(RSL_PIN, RSL_CHANNEL);
+	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
+		ledcAttach(RSL_PIN, RSL_PWM_FREQ, RSL_PWM_RES);
+	#else
+		ledcSetup(RSL_CHANNEL, RSL_PWM_FREQ, RSL_PWM_RES);
+		ledcAttachPin(RSL_PIN, RSL_CHANNEL);
+	#endif
 }
 
 void RSL::setState(uint8_t state) {
@@ -337,18 +397,25 @@ void RSL::setState(uint8_t state) {
 }
 
 void RSL::update() {
+	uint32_t rsl_duty = 0;
     switch (state) {
         case RSL_OFF:
-            ledcWrite(RSL_CHANNEL, 1);
+            rsl_duty = 1;
             break;
         case RSL_ON:
-            ledcWrite(RSL_CHANNEL, (1 << RSL_PWM_RES) - 1);
+            rsl_duty = (1 << RSL_PWM_RES) - 1;
             break;
         case RSL_ENABLED:
-            ledcWrite(RSL_CHANNEL, millis() % 1000 < 500 ? (millis() % 500) * 2 : (500 - (millis() % 500)) * 2);
+            rsl_duty = millis() % 1000 < 500 ? (millis() % 500) * 2 : (500 - (millis() % 500)) * 2;
             break;
         case RSL_DISABLED:
-            ledcWrite(RSL_CHANNEL, (1 << RSL_PWM_RES) - 1);
+            rsl_duty = (1 << RSL_PWM_RES) - 1;
             break;
     }
+	
+	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
+        ledcWrite(RSL_PIN, rsl_duty);
+    #else
+        ledcWrite(RSL_CHANNEL, rsl_duty);
+    #endif
 }
