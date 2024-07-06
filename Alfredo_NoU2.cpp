@@ -192,7 +192,7 @@ NoU_Servo::NoU_Servo(uint8_t servoPort, uint16_t minPulse, uint16_t maxPulse) {
     this->maxPulse = maxPulse;
 	
 	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
-		ledcAttach(pin, SERVO_PWM_FREQ, SERVO_PWM_RES);
+		ledcAttachChannel(pin, SERVO_PWM_FREQ, SERVO_PWM_RES, channel);
     #else
 		ledcSetup(channel, SERVO_PWM_FREQ, SERVO_PWM_RES);
 		ledcAttachPin(pin, channel);
