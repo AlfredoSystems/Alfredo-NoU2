@@ -83,16 +83,16 @@ void NoU_Motor::setState(uint8_t state) {
 	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
       	switch (state) {
 			case FORWARD:	
-				ledcAttach(aPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES);
+				ledcAttachChannel(aPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES, channel);
 				ledcDetach(bPin);
 				break;
 			case BACKWARD:
 				ledcDetach(aPin);
-				ledcAttach(bPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES);
+				ledcAttachChannel(bPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES, channel);
 				break;
 			case BRAKE:
-				ledcAttach(aPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES);
-				ledcAttach(bPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES);
+				ledcAttachChannel(aPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES, channel);
+				ledcAttachChannel(bPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES, channel);
 				break;
 			case RELEASE:
 				ledcDetach(aPin);
@@ -192,7 +192,7 @@ NoU_Servo::NoU_Servo(uint8_t servoPort, uint16_t minPulse, uint16_t maxPulse) {
     this->maxPulse = maxPulse;
 	
 	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
-		ledcAttach(pin, SERVO_PWM_FREQ, SERVO_PWM_RES);
+		ledcAttachChannel(pin, SERVO_PWM_FREQ, SERVO_PWM_RES, channel);
     #else
 		ledcSetup(channel, SERVO_PWM_FREQ, SERVO_PWM_RES);
 		ledcAttachPin(pin, channel);
@@ -385,7 +385,7 @@ void NoU_Drivetrain::setInputDeadband(float inputDeadband) {
 
 void RSL::initialize() {
 	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
-		ledcAttach(RSL_PIN, RSL_PWM_FREQ, RSL_PWM_RES);
+		ledcAttachChannel(RSL_PIN, RSL_PWM_FREQ, RSL_PWM_RES, RSL_CHANNEL);
 	#else
 		ledcSetup(RSL_CHANNEL, RSL_PWM_FREQ, RSL_PWM_RES);
 		ledcAttachPin(RSL_PIN, RSL_CHANNEL);
