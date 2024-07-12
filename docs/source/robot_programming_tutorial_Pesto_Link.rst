@@ -77,7 +77,6 @@ Altogether, our code so far looks something like this (with different motors and
 
     #include <Alfredo_NoU2.h>
     #include <PestoLink-Receive.h>
-    #include <BluetoothSerial.h>
 
     NoU_Motor leftMotor(2);
     NoU_Servo armServo(3);
