@@ -12,13 +12,7 @@ Setup
 
 3. **Add the** `Alfredo-NoU2`_ **and** `PestoLink-Receive`_ **libraries.** Click **Filter your search...** and type **Alfredo-NoU2**, then click **INSTALL**. Do the same for the library **PestoLink_Receive**.
 
-4. **Configure the Arduino IDE to upload to an ESP32.** In the Arduino IDE, click **File** > **Preferences**. Paste the following in the **Additional Boards Manager URLs** field.
-
-::
-
-    https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-    
-Then, go to **Tools** > **Board** > **Boards Manager**. Search for "ESP32" and install the package "esp32 by Espressif Systems".
+4. **Configure the Arduino IDE to upload to a NoU3.** Go to **Tools** > **Board** > **Boards Manager**. Search for "ESP32" and install the package "esp32 by Espressif Systems". Use version 3.0.7.
 
 5. **Decide what device you will use to drive your robot.** With a laptop, you can control your robot using the keyboard or a gamepad (for example an Xbox controller). With a smartphone, you can drive your robot with the touch screen.
 
@@ -240,7 +234,7 @@ Lastly, we'll make our servo move when we press **button 0**.
         basketServo.write(0);
     }
     
-Our completed sketch will now let us drive the robot with WASD and move the servo with the F key. Upload it to the ESP32, power on your robot, and connect to it with AlfredoConnect on your computer.
+Our completed sketch will now let us drive the robot with WASD and move the servo with the F key. Upload it to the ESP32, power on your robot, and connect to it with PestoLink on your computer.
 
 .. code-block:: cpp
 
