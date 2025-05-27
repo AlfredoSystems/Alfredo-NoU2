@@ -12,7 +12,7 @@ Setup
 
 3. **Add the** `Alfredo-NoU2`_ **and** `PestoLink-Receive`_ **libraries.** Click **Filter your search...** and type **Alfredo-NoU2**, then click **INSTALL**. Do the same for the library **PestoLink_Receive**.
 
-4. **Configure the Arduino IDE to upload to a NoU3.** Go to **Tools** > **Board** > **Boards Manager**. Search for "ESP32" and install the package "esp32 by Espressif Systems". Use version 3.0.7.
+4. **Configure the Arduino IDE to upload to a NoU2.** Go to **Tools** > **Board** > **Boards Manager**. Search for "ESP32" and install the package "esp32 by Espressif Systems". Use version 3.0.7.
 
 5. **Decide what device you will use to drive your robot.** With a laptop, you can control your robot using the keyboard or a gamepad (for example an Xbox controller). With a smartphone, you can drive your robot with the touch screen.
 
@@ -177,7 +177,7 @@ Bluetooth Pairing
 *****************
 Now that we've uploaded that sketch, the ESP32 will advertise itself as a Bluetooth device as long as it's on.
 
-**Press/click CONNECT in `PestoLink`_.** A pairing menu will appear, find and select the robot name you chose.
+**Press/click CONNECT in** `PestoLink`_. A pairing menu will appear, find and select the robot name you chose.
 
 You should now be connected to your robot in PestoLink via Bluetooth. Press the buttons you assigned (this tutorial used the 0 and 1 buttons) and the motors and servos you have connected to your robot should move.
     
