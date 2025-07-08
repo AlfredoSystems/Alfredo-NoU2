@@ -79,15 +79,19 @@ void NoU_Motor::setPower(uint16_t power) {
     this->output = (state == BACKWARD ? -1 : 1) * ((float)power / ((1 << MOTOR_PWM_RES) - 1));
 }
 
-void NoU_Motor::setState(uint8_t state) {
+void NoU_Motor::setState(uint8_t newState) {
+    if (this->state == newState) return;
+
 	#if ESP_ARDUINO_VERSION >= ESP_ARDUINO_VERSION_VAL(3, 0, 0)
-      	switch (state) {
+      	switch (newState) {
 			case FORWARD:	
 				ledcAttachChannel(aPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES, channel);
 				ledcDetach(bPin);
+                digitalWrite(bPin, 0);
 				break;
 			case BACKWARD:
 				ledcDetach(aPin);
+                digitalWrite(aPin, 0);
 				ledcAttachChannel(bPin, MOTOR_PWM_FREQ, MOTOR_PWM_RES, channel);
 				break;
 			case BRAKE:
@@ -97,11 +101,13 @@ void NoU_Motor::setState(uint8_t state) {
 			case RELEASE:
 				ledcDetach(aPin);
 				ledcDetach(bPin);
+                digitalWrite(aPin, 0);
+                digitalWrite(bPin, 0);
 				break;
 		}
-		this->state = state;
+		this->state = newState;
     #else
-		switch (state) {
+		switch (newState) {
 			case FORWARD:	
 				ledcAttachPin(aPin, channel);
 				ledcDetachPin(bPin);
@@ -124,6 +130,7 @@ void NoU_Motor::setState(uint8_t state) {
 }
 
 void NoU_Motor::set(float output) {
+    Serial.println(output);
     output = applyCurve(output);
     setState(output > 0 ? FORWARD : BACKWARD);
     setPower(fabs(output) * ((1 << MOTOR_PWM_RES) - 1));
