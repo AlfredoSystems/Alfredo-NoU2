@@ -130,7 +130,6 @@ void NoU_Motor::setState(uint8_t newState) {
 }
 
 void NoU_Motor::set(float output) {
-    Serial.println(output);
     output = applyCurve(output);
     setState(output > 0 ? FORWARD : BACKWARD);
     setPower(fabs(output) * ((1 << MOTOR_PWM_RES) - 1));
