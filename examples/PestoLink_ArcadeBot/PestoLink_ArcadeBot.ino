@@ -41,7 +41,7 @@ void loop() {
     int servoAngle = 0;
 
 // Here we decide what the throttle and rotation direction will be based on gamepad inputs   
-    if (PestoLink.update()) {
+    if (PestoLink.isConnected()) {
         float throttle = -PestoLink.getAxis(1);
         float rotation = PestoLink.getAxis(0);
         
@@ -64,6 +64,5 @@ void loop() {
     servo.write(servoAngle);
 
 // No need to mess with this code
-    PestoLink.update();
     RSL::update();
 }
